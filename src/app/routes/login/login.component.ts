@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {BackendapiService} from 'src/app/services/backendapi.service'
 
 @Component({
@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
 
   // email: any
   // password: any
-  form: FormGroup
+  form: UntypedFormGroup
   submitted: boolean = false
   errMessage: string
   errorEvent: boolean = false
@@ -21,9 +21,9 @@ export class LoginComponent implements OnInit {
   constructor(public auth: BackendapiService) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      username: new FormControl("", [Validators.required]),
-      password: new FormControl("", [Validators.required, Validators.minLength(6)])
+    this.form = new UntypedFormGroup({
+      username: new UntypedFormControl("", [Validators.required]),
+      password: new UntypedFormControl("", [Validators.required, Validators.minLength(6)])
     })
   }
 

@@ -50,6 +50,11 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-exclamation-triangle',
           routerLink: '/defects'
       },
+      {
+        label: 'List',
+        icon: 'pi pi-list',
+        routerLink: '/defects/list'
+    },
       ]}
       
   ];

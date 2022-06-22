@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MessageService} from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
 import { BackendapiService } from 'src/app/services/backendapi.service';
@@ -9,6 +9,8 @@ import { BarcodeFormat } from '@zxing/library';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
 import { BehaviorSubject } from 'rxjs';
 
+// import { MatDialog } from '@angular/material/dialog';
+// import { FormatsDialogComponent } from './formats-dialog/formats-dialog.component';
 interface Transport {
   plates: string;
   slot: Slot;
@@ -27,6 +29,8 @@ interface Slot {
   providers: [MessageService, ConfirmationService, BarcodeScannerLivestreamComponent],
 })
 export class DefectsComponent implements OnInit {
+
+  items: MenuItem[];
 
   lines: ILines[];
   selectedLine: ILines
@@ -61,13 +65,34 @@ export class DefectsComponent implements OnInit {
 
   torchEnabled = false;
   torchAvailable$ = new BehaviorSubject<boolean>(false);
-  tryHarder = false;
+  tryHarder = true;
 
   constructor(public api: BackendapiService, 
     private messageService: MessageService, 
-    public confirmationService: ConfirmationService) { }
+    public confirmationService: ConfirmationService,
+    // private readonly _dialog: MatDialog
+    ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.items = [{
+      items: [{
+          label: 'Enable Try-harder',
+          icon: 'pi pi-server',
+          command: () => {
+            this.toggleTryHarder()
+          } 
+      },
+      {
+        label: 'Enable Torch',
+        icon: 'pi pi-filter',
+        command: () => {
+          this.toggleTorch()
+        } 
+      },
+      ]}
+  ];
+
     this.remontTypesAll = await this.api.getDefectsTypes()
     this.lines = await this.api.getLines()  
   }
@@ -92,7 +117,7 @@ export class DefectsComponent implements OnInit {
   }
 
   cameraOn(){
-    this.scannerEnabled = true
+    this.scannerEnabled = !this.scannerEnabled
   }
   clearResult(): void {
     this.qrResultString = null;
