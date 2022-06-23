@@ -1,0 +1,31 @@
+<p-dropdown [options]="listRemont" (onChange)="selected=false; processed=false" (onClick)="selected=true; processed=false" (onFilter)="selected=false; processed=false" [(ngModel)]="selectedId" optionLabel="serial" [filter]="true" filterBy="serial"
+	[showClear]="true" placeholder="Select a serial">
+	<ng-template pTemplate="selectedId">
+		<div class="country-item country-item-value" *ngIf="selectedId">
+			<div>{{selectedId.serial}}</div>
+		</div>
+	</ng-template>
+	<ng-template let-serials pTemplate="serial">
+		<div class="country-item">
+			<div>{{serials.serial}}</div>
+		</div>
+	</ng-template>
+</p-dropdown>
+
+<button pButton pRipple type="button" label="Tasdiqlash" class="p-button-outlined p-button-rounded" (click)="update()" ></button>
+<div *ngIf="selected && selectedId" >
+    <p>Serial nomer: {{selectedId?.serial}}</p>
+    <p>Kiritilgan vaqti: {{selectedId?.vaqt}}</p>
+    <p>Defect: {{selectedId?.defect}}</p>
+</div>
+<p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+<p [hidden]="!processed" style="color: green;">Yangilandi</p>
+<div *ngIf="scannerEnabled"  class="scanner-shell" [hidden]="!hasDevices">
+    <button type="button" class="p-button-outlined p-button-rounded" pButton pRipple icon="pi pi-bars" label="Options" (click)="menu.toggle($event)"></button>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  
+    <zxing-scanner [torch]="torchEnabled" [device]="deviceCurrent" (deviceChange)="onDeviceChange($event)" (scanSuccess)="onCodeResult($event)"
+      [formats]="formatsEnabled" [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)"
+      (camerasFound)="onCamerasFound($event)" (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+  
+  </div>
