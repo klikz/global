@@ -54,7 +54,12 @@ export class AppComponent implements OnInit {
         label: 'List',
         icon: 'pi pi-list',
         routerLink: '/defects/list'
-    },
+      },
+      {
+        label: "Ta'mirlash",
+        icon: 'pi pi-cog',
+        routerLink: '/defects/repair'
+      },
       ]}
       
   ];

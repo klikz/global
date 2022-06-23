@@ -8,6 +8,33 @@ import { ConfigService } from 'src/config/config.service'
 export class BackendapiService {
 
   constructor(public config: ConfigService, public http: HttpClient) { }
+  public async updateRemont(date1: any, date2: any, line: number, token: any){
+    let data = {
+      date1,
+      date2,
+      line,
+      token
+    }
+    return new Promise<any>((resolve) => {
+      this.http.post<any>('/api/report/remont/update', data).subscribe(e=>{
+          resolve(e);
+        })
+      })
+    }
+
+  public async getRemontList(date1: any, date2: any, line: number, token: any){
+    let data = {
+      date1,
+      date2,
+      line,
+      token
+    }
+    return new Promise<any>((resolve) => {
+      this.http.post<any>('/api/report/remont', data).subscribe(e=>{
+          resolve(e);
+        })
+      })
+    }
 
   public async addDefectsTypes(body: any){
     return new Promise<any>((resolve) => {

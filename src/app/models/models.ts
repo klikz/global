@@ -28,3 +28,13 @@ export interface ILines {
     id: Number, 
     name: string,
 }
+
+export interface IRemont {
+    id: number
+    serial: string
+    vaqt: string
+    checkpoint: string
+    model: string
+    defect: string
+    error?: any
+}
