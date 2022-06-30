@@ -8,11 +8,21 @@ import { ConfigService } from 'src/config/config.service'
 export class BackendapiService {
 
   constructor(public config: ConfigService, public http: HttpClient) { }
-  public async updateRemont(date1: any, date2: any, line: number, token: any){
+
+  public async GetInfoBySerial(serial: string){
     let data = {
-      date1,
-      date2,
-      line,
+      serial
+    }
+    return new Promise<any>((resolve) => {
+      this.http.post<any>('/api/checkserial', data).subscribe(e=>{
+          resolve(e);
+        })
+      })
+    }
+
+  public async updateRemont(id: number, token: any){
+    let data = {
+      id,
       token
     }
     return new Promise<any>((resolve) => {
@@ -21,12 +31,21 @@ export class BackendapiService {
         })
       })
     }
-
-  public async getRemontList(date1: any, date2: any, line: number, token: any){
+    public async getRemontListByDate(date1: any, date2: any, line: number, token: any){
+      let data = {
+        date1,
+        date2,
+        line,
+        token
+      }
+      return new Promise<any>((resolve) => {
+        this.http.post<any>('/api/report/remont/bydate', data).subscribe(e=>{
+            resolve(e);
+          })
+        })
+      }
+    public async getRemontList(token: any){
     let data = {
-      date1,
-      date2,
-      line,
       token
     }
     return new Promise<any>((resolve) => {
@@ -36,6 +55,31 @@ export class BackendapiService {
       })
     }
 
+  public async getRemontListToday(token: any){
+    let data = {
+      token
+    }
+    return new Promise<any>((resolve) => {
+      this.http.post<any>('/api/report/remont/today', data).subscribe(e=>{
+          resolve(e);
+        })
+      })
+    }
+
+  public async addDefects(serial: string, checkpoint: number, defect: number, token: any, name: string){
+    let data = {
+      serial,
+      checkpoint,
+      defect,
+      token,
+      name
+    }
+    return new Promise<any>((resolve) => {
+      this.http.post<any>('/api/production/defects/add', data).subscribe(e=>{
+          resolve(e);
+        })
+      })
+    }
   public async addDefectsTypes(body: any){
     return new Promise<any>((resolve) => {
       this.http.post<any>('/api/production/defects/types/add', body).subscribe(e=>{
@@ -50,17 +94,20 @@ export class BackendapiService {
         })
       })
     }
-  public async getLines(){
+  public async getLines(token: any){
+    let data = {
+      token
+    }
     return new Promise<any>((resolve) => {
-      this.http.post<any>('/api/production/lines', "null").subscribe(e=>{
+      this.http.post<any>('/api/production/lines', data).subscribe(e=>{
           resolve(e);
         })
       })
     }
   
-  public async getDefectsTypes(){
+  public async getDefectsTypes(token: any){
     return new Promise<any>((resolve) => {
-      this.http.post<any>('/api/production/defects/types', "null").subscribe(e=>{
+      this.http.post<any>('/api/production/defects/types', {token}).subscribe(e=>{
           resolve(e);
         })
       })
@@ -117,30 +164,46 @@ export class BackendapiService {
       })
     }
 
-  public async getToday(body: any){
+  public async getToday(line: number, token: any){
+    let data = {
+      line,
+      token
+    }
     return new Promise<any>((resolve) => {
-      this.http.post<any>('/api/production/today', body).subscribe(e=>{
+      this.http.post<any>('/api/production/today', data).subscribe(e=>{
           resolve(e);
         })
       })
     }
-  public async getTodayByModels(body: any){
+  public async getTodayByModels(line: number, token: any){
+    let data = {
+      line,
+      token
+    }
       return new Promise<any[]>((resolve) => {
-        this.http.post<any[]>('/api/production/today/models', body).subscribe(e=>{
+        this.http.post<any[]>('/api/production/today/models', data).subscribe(e=>{
             resolve(e);
           })
         })
       }
-  public async getPackingToday(body: any){
+  public async getPackingToday(body: number, token: any){
+    let data = {
+      line: body,
+      token
+    }
     return new Promise<any>((resolve) => {
-      this.http.post<any>('/api/production/packing/today', body).subscribe(e=>{
+      this.http.post<any>('/api/production/packing/today', data).subscribe(e=>{
           resolve(e);
         })
       })
     }
-  public async getPackingTodayByModels(body: any){
+  public async getPackingTodayByModels(body: any, token: any){
+    let data = {
+      line: body,
+      token
+    }
       return new Promise<any[]>((resolve) => {
-        this.http.post<any[]>('/api/production/packing/today/models', body).subscribe(e=>{
+        this.http.post<any[]>('/api/production/packing/today/models', data).subscribe(e=>{
             resolve(e);
           })
         })

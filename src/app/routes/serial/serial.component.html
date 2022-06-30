@@ -1,0 +1,38 @@
+<p>Serial Nomer kiriting</p>
+<input type="text" pInputText [(ngModel)]="serial"/>
+<button pButton label="Tasdiqlash" style="margin-left: 10px;" (click)="submit()" type="button"></button>
+<p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+<div *ngIf="loaded">
+    <h2>Packing Info</h2>
+    <p-table [value]="packingInfo" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Refregerator Serial</th>
+                <th>Packing Serial</th>
+                <th>Time</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.ref_serial}}</td>
+                <td>{{product.packing_serial}}</td>
+                <td>{{product.packing_time}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <h2>Checkpoint Info</h2>
+    <p-table [value]="productionInfo" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Checkpoint</th>
+                <th>Time</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.checkpoint}}</td>
+                <td>{{product.time}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
