@@ -18,21 +18,21 @@ export interface IProduction {
 }
 
 export interface IRemontTypes {
-    id: Number, 
+    id: number, 
     defect_name: string,
     line_id: number, 
     name: string
 }
 
 export interface ILines {
-    id: Number, 
+    id: number, 
     name: string,
 }
 
 export interface IRemont {
     id: number
     serial: string
-    vaqt: string
+    vaqt: string | Date
     checkpoint: string
     model: string
     defect: string
