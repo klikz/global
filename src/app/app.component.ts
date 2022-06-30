@@ -42,6 +42,11 @@ export class AppComponent implements OnInit {
         icon: 'pi pi-file-excel',
         routerLink: '/report'
       },
+      {
+        label: 'Ref Info',
+        icon: 'pi pi-file-excel',
+        routerLink: '/serial'
+      },
       ]},
       {
         label: 'Defects',
@@ -64,6 +69,23 @@ export class AppComponent implements OnInit {
       
   ];
         break;
+    case "otk":
+      this.items = [{
+          label: 'Defects',
+          items: [{
+            label: 'Kiritish',
+            icon: 'pi pi-exclamation-triangle',
+            routerLink: '/defects'
+        },
+        {
+          label: 'List',
+          icon: 'pi pi-list',
+          routerLink: '/defects/list'
+        },
+        ]}
+        
+    ];
+    break
         default:
           this.items = [
             {label: 'Login', icon: 'pi pi-list', routerLink: '/login'}

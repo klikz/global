@@ -33,10 +33,10 @@ export class RepairComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.token = localStorage.getItem("token")
-    this.listRemont = await this.api.getRemontList("null", "null", 0, this.token)
+    this.listRemont = await this.api.getRemontList(this.token)
   }
   async update(){
-    let result = await this.api.updateRemont("null", "null", this.selectedId.id, this.token)
+    let result = await this.api.updateRemont(this.selectedId.id, this.token)
     if (result.error){
       this.processed = false
       this.someError = true
@@ -45,6 +45,6 @@ export class RepairComponent implements OnInit {
     }
     this.selected = false
     this.processed = true
-    this.listRemont = await this.api.getRemontList("null", "null", 0, this.token)
+    this.listRemont = await this.api.getRemontList(this.token)
   }
 }

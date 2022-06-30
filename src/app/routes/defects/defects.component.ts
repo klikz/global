@@ -7,7 +7,7 @@ import { BackendapiService } from 'src/app/services/backendapi.service';
 import {IRemontTypes, ILines} from 'src/app/models/models'
 import { BarcodeFormat } from '@zxing/library';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, flatMap } from 'rxjs';
 
 // import { MatDialog } from '@angular/material/dialog';
 // import { FormatsDialogComponent } from './formats-dialog/formats-dialog.component';
@@ -46,6 +46,7 @@ export class DefectsComponent implements OnInit {
   remontTypesAll: IRemontTypes[]
   serial: string = ''
   scannerEnabled: boolean = false;
+  processed: boolean = false
   // transports: Transport[] = [];
   // information: string = "No se ha detectado información de ningún código. Acerque un código QR para escanear.";
   availableDevices: MediaDeviceInfo[];
@@ -60,6 +61,8 @@ export class DefectsComponent implements OnInit {
 
   hasDevices: boolean;
   hasPermission: boolean;
+  token: any
+  email: any
 
   qrResultString: string | null;
 
@@ -68,12 +71,13 @@ export class DefectsComponent implements OnInit {
   tryHarder = true;
 
   constructor(public api: BackendapiService, 
-    private messageService: MessageService, 
     public confirmationService: ConfirmationService,
     // private readonly _dialog: MatDialog
     ) { }
 
   async ngOnInit(): Promise<void> {
+    this.token = localStorage.getItem("token")
+    this.email = localStorage.getItem("email")
 
     this.items = [{
       items: [{
@@ -93,17 +97,32 @@ export class DefectsComponent implements OnInit {
       ]}
   ];
 
-    this.remontTypesAll = await this.api.getDefectsTypes()
-    this.lines = await this.api.getLines()  
+    this.remontTypesAll = await this.api.getDefectsTypes(this.token)
+    console.log(this.remontTypesAll)
+    this.lines = await this.api.getLines(this.token)  
+    console.log(this.lines)
   }
   async defKiritish(){
+    this.processed = false
     if(this.serial == "" || this.selectedActiveType.name == ""){
       this.someError = true
       this.errorText = "Ma'lumotlar to'liq kiritilmadi"
       return
     }
     this.someError = false
-    console.log(this.selectedLine.name, "name: ", this.selectedActiveType.id, this.serial)
+    console.log("add: ", this.serial, this.selectedLine.id, this.selectedActiveType.id, this.token)
+    let result = await this.api.addDefects(this.serial, this.selectedLine.id, this.selectedActiveType.id, this.token, this.email)
+    if (result.error){
+
+      this.someError = true
+      this.errorText = result.error
+      return
+    }
+    this.someError = false
+    // console.log(this.selectedLine.name, "name: ", this.selectedActiveType.id, this.serial)
+    console.log(result)
+    this.serial = ""
+    this.processed = true
   }
   lineChanged(){
     this.activeTypes = []

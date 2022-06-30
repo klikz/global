@@ -1,8 +1,14 @@
 <div class="p-field p-col-12 p-md-4">
-    <label for="touchui">Sana 1: </label>
-    <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui"></p-calendar>
-    <label for="touchui">Sana 2: </label>
-    <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui"></p-calendar>
+    <div>
+        <label for="touchui">Sana 1: </label>
+        <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui"></p-calendar>
+
+    </div>
+    <div>
+        <label for="touchui">Sana 2: </label>
+        <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui"></p-calendar>
+
+    </div>
 </div>
 <div style="padding-top: 10px;">
     <button pButton label="Tanlash" style="padding-top: 10px;" (click)="onPicked()" type="button"></button>

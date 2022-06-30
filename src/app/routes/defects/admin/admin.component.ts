@@ -18,12 +18,14 @@ export class AdminComponent implements OnInit {
   someError: boolean = false
   errorText: any
   defName: string = ''
+  token: any
 
   constructor(public api: BackendapiService, private messageService: MessageService, public confirmationService: ConfirmationService) { }
 
   async ngOnInit(): Promise<void> {
-    this.remontTypesAll = await this.api.getDefectsTypes()
-    this.lines = await this.api.getLines()   
+    this.token = localStorage.getItem("token")
+    this.remontTypesAll = await this.api.getDefectsTypes(this.token)
+    this.lines = await this.api.getLines(this.token)   
   }
 
   deleteDefect(product: IRemontTypes) {
@@ -49,7 +51,7 @@ export class AdminComponent implements OnInit {
             this.someError = false
           }
           this.messageService.add({severity:'success', summary: 'Success', detail:"Defekt o'chirildi"});
-          this.remontTypesAll = await this.api.getDefectsTypes()
+          this.remontTypesAll = await this.api.getDefectsTypes(this.token)
           // alert('ERROR')
           // // location.reload();
           // this.loading = true
@@ -79,7 +81,7 @@ export class AdminComponent implements OnInit {
       this.someError = true
       this.errorText = result.error
     }
-    this.remontTypesAll = await this.api.getDefectsTypes()
+    this.remontTypesAll = await this.api.getDefectsTypes(this.token)
     this.defName = ''
   }
  
