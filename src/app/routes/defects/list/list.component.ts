@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
 
   listRemont: IRemont[]
   listRemontByDate: IRemont[]
+  count: number = 0
 
   token: string | null
 
@@ -65,6 +66,7 @@ export class ListComponent implements OnInit {
       return
     }
     this.listRemontByDate = await this.api.getRemontListByDate(this.transformDate(this.date1), this.transformDate(this.date2), 2, this.token)
+    this.count = this.listRemontByDate.length
     this.alldefects = true
     
     // this.countAssembly = await this.api.reportByDate(this.transformDate(this.date1), this.transformDate(this.date2), 2, this.token)

@@ -18,6 +18,8 @@ export class ReportComponent implements OnInit {
   token: string | null
   exports: boolean = false
 
+  countPPU: any
+  byModelPPU: any
   countAssembly: any
   byModelAssembly: any
   countPacking: any
@@ -54,6 +56,8 @@ export class ReportComponent implements OnInit {
     this.byModelAssembly = await this.api.reportByDateModels(this.transformDate(this.date1), this.transformDate(this.date2), 2, this.token)
     this.countPacking = await this.api.reportByDate(this.transformDate(this.date1), this.transformDate(this.date2), 13, this.token)
     this.byModelPacking = await this.api.reportByDateModels(this.transformDate(this.date1), this.transformDate(this.date2), 13, this.token)
+    this.countPPU = await this.api.reportByDate(this.transformDate(this.date1), this.transformDate(this.date2), 10, this.token)
+    this.byModelPPU = await this.api.reportByDateModels(this.transformDate(this.date1), this.transformDate(this.date2), 10, this.token)
     this.exports = true
   }
 

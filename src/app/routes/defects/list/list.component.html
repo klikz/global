@@ -39,6 +39,7 @@
 
 
 <div class="card" *ngIf="alldefects">
+    <h2>Defektlar soni: {{count}}</h2>
     <p-table #dt1 [value]="listRemontByDate" dataKey="id"
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-gridlines"
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"

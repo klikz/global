@@ -20,9 +20,11 @@ export class LinesComponent implements OnInit {
   byModelAssembly: any
   countPacking: any
   byModelPacking: any
+  countPpu: any
+  byModelPpu: any
   assembly: ILine = {
     line: 2
-  }  
+  }
   packing: ILine = {
     line: 13
   }
@@ -34,15 +36,13 @@ export class LinesComponent implements OnInit {
     // console.log(this.assembly)
     this.countAssembly = await this.api.getToday(2, this.token)
     console.log(this.countAssembly)
-    // if(this.countAssembly.error){
-    //   localStorage.clear()
-    //   location.reload()
-    //   window.location.href = "/"
-    //   console.log(this.countAssembly.error)
-    // }
     this.byModelAssembly = await this.api.getTodayByModels(2, this.token)
     console.log(this.byModelAssembly)
-    console.log(this.packing)
+    this.countPpu = await this.api.getToday(10, this.token)
+    console.log(this.countPpu)
+    this.byModelPpu = await this.api.getTodayByModels(10, this.token)
+    console.log(this.byModelPpu)
+    // console.log(this.packing)
     this.countPacking = await this.api.getPackingToday(13, this.token)
     console.log(this.countPacking)
     this.byModelPacking = await this.api.getPackingTodayByModels(13, this.token)
